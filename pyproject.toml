@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hinglish-captions"
+version = "0.1.0"
+description = "Word-exact captions for Hinglish talking-head reels: forced alignment, voice-snapped onsets, SRT / VTT / karaoke ASS."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Saksham Pandey" }]
+keywords = ["captions", "subtitles", "hinglish", "hindi", "forced-alignment", "reels", "srt", "ass"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Video",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dependencies = ["numpy>=1.24", "torch>=2.1", "transformers>=4.40"]
+
+[project.scripts]
+hcap = "hinglish_captions.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,15 @@
+__pycache__/
+*.egg-info/
+build/
+dist/
+.venv/
+# your own media and outputs stay local
+*.mp4
+*.mov
+*.wav
+*.mp3
+*.m4a
+*.srt
+*.vtt
+*.ass
+out/
