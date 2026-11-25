@@ -21,7 +21,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-_TOKEN = re.compile(r"(\S+?)\{([^}]*)\}|(\S+)")
+_TOKEN = re.compile(r"(\S+?)\{([^}]*)\}(\S*)|(\S+)")
 
 
 @dataclass
@@ -53,15 +53,15 @@ def parse(text: str) -> list[Word]:
             pending_break = bool(words)
             continue
         for m in _TOKEN.finditer(line):
-            if m.group(3) is not None:
-                shown, spoken = m.group(3), spoken_form(m.group(3))
+            if m.group(4) is not None:
+                shown, spoken = m.group(4), spoken_form(m.group(4))
                 if not spoken:
                     raise ScriptError(
                         f"line {lineno}: {shown!r} has no Roman letters to align. "
                         f"Write it as {shown}{{how it is said}}, e.g. 60{{sixty}}."
                     )
-            else:
-                shown, spoken = m.group(1), spoken_form(m.group(2))
+            else:  # shown{spoken}, plus any punctuation typed after the braces
+                shown, spoken = m.group(1) + m.group(3), spoken_form(m.group(2))
                 if not spoken:
                     raise ScriptError(f"line {lineno}: {{{m.group(2)}}} after {shown!r} has no Roman letters.")
             words.append(Word(shown, spoken, pending_break))

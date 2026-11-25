@@ -19,6 +19,11 @@ class ScriptTests(unittest.TestCase):
         self.assertTrue(ws[6].break_before)
         self.assertFalse(ws[7].break_before)
 
+    def test_punctuation_after_braces_stays_on_the_word(self):
+        ws = parse("the '90s{nineties}. Age 30{thirty}, okay")
+        self.assertEqual([w.shown for w in ws], ["the", "'90s.", "Age", "30,", "okay"])
+        self.assertEqual(ws[1].spoken, ["nineties"])
+
     def test_number_without_spoken_form_fails(self):
         with self.assertRaises(ScriptError) as e:
             parse("ek reel = 18 ghante")
